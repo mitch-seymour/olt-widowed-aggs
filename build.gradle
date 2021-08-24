@@ -6,7 +6,7 @@ plugins {
 }
 
 application {
-  mainClass= 'com.example.App'
+  mainClass= 'com.example.tumbling.App'
 }
 
 repositories {

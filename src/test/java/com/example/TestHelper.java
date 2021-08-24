@@ -18,7 +18,7 @@ class TestHelper {
 
   static void setup() {
     // build the topology with a dummy client
-    Topology topology = MyTopology.build();
+    Topology topology = App.getTopology();
 
     // create a test driver. we will use this to pipe data to our topology
     Properties props = new Properties();
