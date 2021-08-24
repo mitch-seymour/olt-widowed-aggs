@@ -10,8 +10,13 @@ class App {
 
   public static Topology getTopology() {
     Topology topology;
-    String step = System.getenv().getOrDefault("show_answer", "tumbling");
+    String step = System.getenv().getOrDefault("show_answer", "mine");
     switch (step) {
+      case "mine":
+        System.out.println("Running my version");
+        topology = com.example.MyTopology.build();
+        break;
+
       case "hopping":
         System.out.println("Running hopping window version");
         topology = com.example.hopping.MyTopology.build();
