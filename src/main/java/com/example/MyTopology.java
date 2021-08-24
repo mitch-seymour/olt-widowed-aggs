@@ -19,14 +19,23 @@ class MyTopology {
   public static Topology build() {
     StreamsBuilder builder = new StreamsBuilder();
 
-    // fill this out!
-    TimeWindows window = ...;
+    TimeWindows hoppingWindow =
+        TimeWindows.of(Duration.ofMinutes(5)).advanceBy(Duration.ofMinutes(4));
+
+    TimeWindows tumblingWindow = TimeWindows.of(Duration.ofMinutes(5));
+
+    SessionWindows sessionWindow = SessionWindows.with(Duration.ofMinutes(5));
+
+    SlidingWindows slidingWindow =
+        SlidingWindows.withTimeDifferenceAndGrace(
+            Duration.ofMinutes(5), // max time diff between 2 records
+            Duration.ofMinutes(5)); // grace period
 
     Consumed<String, String> consumerParams = Consumed.with(Serdes.String(), Serdes.String());
     KStream<String, String> redditPosts = builder.stream("reddit-posts", consumerParams);
 
     KTable<Windowed<String>, Long> counts =
-        redditPosts.groupByKey().windowedBy(window).count();
+        redditPosts.groupByKey().windowedBy(slidingWindow).count();
 
     // write the alerts to a topic
     counts
